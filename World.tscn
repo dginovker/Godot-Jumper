@@ -1,21 +1,111 @@
-[gd_scene load_steps=3 format=3 uid="uid://bchiot828oh5e"]
+[gd_scene load_steps=8 format=3 uid="uid://bchiot828oh5e"]
 
-[ext_resource type="PackedScene" uid="uid://dg8148rsg6iav" path="res://Blob.tscn" id="1_2dftf"]
+[ext_resource type="PackedScene" uid="uid://dg8148rsg6iav" path="res://Slime.tscn" id="1_2dftf"]
 [ext_resource type="PackedScene" uid="uid://dpoqjj25wo7yi" path="res://wall.tscn" id="1_c6gwx"]
+[ext_resource type="PackedScene" uid="uid://cia2ukske7gwl" path="res://Water.tscn" id="3_bcbcq"]
+
+[sub_resource type="Curve2D" id="Curve2D_bcbcq"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -708, -2400, 0, 0, 0, 0, 491, -2400)
+}
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_bcbcq"]
+resource_name = "move"
+length = 8.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Path2D/PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.01, 8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_js7pq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Path2D/PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_js7pq"]
+_data = {
+&"RESET": SubResource("Animation_js7pq"),
+&"move": SubResource("Animation_bcbcq")
+}
 
 [node name="World" type="Node2D"]
 
 [node name="BlobRigidbody2d" parent="." instance=ExtResource("1_2dftf")]
-position = Vector2(-51, -131)
+position = Vector2(117, -2003)
 
 [node name="Ground" parent="." instance=ExtResource("1_c6gwx")]
 rotation = 1.5708
-scale = Vector2(1, 5.56)
+scale = Vector2(1, 13.2)
 
 [node name="LeftWall" parent="." instance=ExtResource("1_c6gwx")]
-position = Vector2(-298, -589)
-scale = Vector2(1, 10)
+position = Vector2(-848, -3119)
+scale = Vector2(1, 50)
 
 [node name="RightWall" parent="." instance=ExtResource("1_c6gwx")]
-position = Vector2(294, -581)
-scale = Vector2(1, 10)
+position = Vector2(884, -3065)
+scale = Vector2(1, 50)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -99
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1150.0
+offset_bottom = 650.0
+color = Color(0.744622, 0.949066, 0.993328, 1)
+
+[node name="Wall" parent="." instance=ExtResource("1_c6gwx")]
+position = Vector2(-517, -547)
+scale = Vector2(4.2, 1)
+
+[node name="Wall2" parent="." instance=ExtResource("1_c6gwx")]
+position = Vector2(558, -926)
+scale = Vector2(4.2, 1)
+
+[node name="Wall3" parent="." instance=ExtResource("1_c6gwx")]
+position = Vector2(-697, -1163)
+scale = Vector2(1.52, 1)
+
+[node name="Wall4" parent="." instance=ExtResource("1_c6gwx")]
+position = Vector2(290, -1770)
+scale = Vector2(5.68, 1)
+
+[node name="WaterScene" parent="." instance=ExtResource("3_bcbcq")]
+position = Vector2(102, 1213)
+
+[node name="MovingPlatform1" type="Node2D" parent="."]
+
+[node name="Path2D" type="Path2D" parent="MovingPlatform1"]
+curve = SubResource("Curve2D_bcbcq")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="MovingPlatform1/Path2D"]
+position = Vector2(-708, -2400)
+
+[node name="Wall" parent="MovingPlatform1/Path2D/PathFollow2D" instance=ExtResource("1_c6gwx")]
+scale = Vector2(5.68, 1)
+sync_to_physics = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatform1"]
+libraries = {
+&"": SubResource("AnimationLibrary_js7pq")
+}
+autoplay = "move"

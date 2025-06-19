@@ -15,7 +15,7 @@ height = 132.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hr3ls"]
 
-[node name="BlobRigidbody2d" type="RigidBody2D"]
+[node name="BlobRigidbody2d" type="RigidBody2D" groups=["player"]]
 mass = 0.2
 physics_material_override = SubResource("PhysicsMaterial_hr3ls")
 lock_rotation = true

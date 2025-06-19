@@ -1,8 +1,13 @@
 extends RigidBody2D
+class_name Player
+
 @onready var arm = $ArmNode2D
 @onready var power_sprite = $ArmNode2D/PowerArmSprite2D
 var power = 0
 var was_pressed = false
+
+func _ready():
+    Connector.register_player(self)
 
 func _process(delta: float) -> void:
     var is_pressed = Input.is_physical_key_pressed(KEY_SPACE)
@@ -20,4 +25,3 @@ func _process(delta: float) -> void:
     power_sprite.scale = Vector2(power_ratio, power_ratio)
     power_sprite.modulate = Color.RED  # Make it red so it's distinct
     
-    print(power)
