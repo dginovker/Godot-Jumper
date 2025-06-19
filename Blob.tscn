@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://dg8148rsg6iav"]
+
+[ext_resource type="Texture2D" uid="uid://3iqt2cb4d8vp" path="res://slime.png" id="1_mf5yo"]
+[ext_resource type="Script" uid="uid://boolv5n104q83" path="res://Blob.gd" id="1_yq3el"]
+[ext_resource type="Texture2D" uid="uid://c4wcr2h410j40" path="res://arm.png" id="2_f14xy"]
+[ext_resource type="Script" uid="uid://xuune4ea7sul" path="res://SlimeArm.gd" id="3_hr3ls"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hr3ls"]
+friction = 0.8
+bounce = 0.1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mf5yo"]
+radius = 39.0
+height = 132.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hr3ls"]
+
+[node name="BlobRigidbody2d" type="RigidBody2D"]
+mass = 0.2
+physics_material_override = SubResource("PhysicsMaterial_hr3ls")
+lock_rotation = true
+script = ExtResource("1_yq3el")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 16)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_mf5yo")
+
+[node name="SlimeSprite2d" type="Sprite2D" parent="."]
+texture = ExtResource("1_mf5yo")
+
+[node name="ArmNode2D" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+mass = 0.001
+gravity_scale = 0.0
+angular_velocity = 2.61799
+angular_damp_mode = 1
+script = ExtResource("3_hr3ls")
+
+[node name="PowerArmSprite2D" type="Sprite2D" parent="ArmNode2D"]
+z_index = 1000
+position = Vector2(1, 76)
+texture = ExtResource("2_f14xy")
+
+[node name="ArmSprite2D" type="Sprite2D" parent="ArmNode2D"]
+z_index = 999
+position = Vector2(1, 76)
+texture = ExtResource("2_f14xy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ArmNode2D"]
+shape = SubResource("RectangleShape2D_hr3ls")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("..")
+node_b = NodePath("../ArmNode2D")

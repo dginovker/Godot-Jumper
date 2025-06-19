@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpoqjj25wo7yi"]
+
+[ext_resource type="Script" uid="uid://5nt8r7giv8v6" path="res://Wall.gd" id="1_iuee5"]
+[ext_resource type="Texture2D" uid="uid://bkd4ewoku2h1j" path="res://Wall.png" id="1_y4f30"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y4f30"]
+
+[node name="Wall" type="StaticBody2D"]
+script = ExtResource("1_iuee5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y4f30")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_y4f30")
